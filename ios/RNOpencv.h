@@ -4,8 +4,8 @@
 #import <React/RCTBridgeModule.h>
 #endif
 
-#import <opencv2/imgproc/imgproc.hpp>
+#import "OpenCV/imgproc/imgproc.hpp"
 
-@interface RNOpenCvLibrary : NSObject <RCTBridgeModule>
+@interface RNOpenCV : NSObject <RCTBridgeModule>
 
 @end

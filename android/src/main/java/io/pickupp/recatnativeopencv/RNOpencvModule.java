@@ -27,7 +27,7 @@ public class RNOpencvModule extends ReactContextBaseJavaModule {
 
     @Override
     public String getName() {
-        return "RNOpenCvLibrary";
+        return "RNOpenCV";
     }
 
     @ReactMethod

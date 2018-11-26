@@ -1,7 +1,7 @@
-#import "RNOpenCvLibrary.h"
+#import "RNOpenCV.h"
 #import <React/RCTLog.h>
 
-@implementation RNOpenCvLibrary
+@implementation RNOpenCV
 
 - (dispatch_queue_t)methodQueue
 {
