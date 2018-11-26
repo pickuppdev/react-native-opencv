@@ -32,6 +32,6 @@ repositories {
 
 dependencies {
     compile 'com.facebook.react:react-native:+'
-    compile 'org.opencv'
+    compile 'org.opencv:opencv:3.4.4'
 }
   
