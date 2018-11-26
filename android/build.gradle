@@ -28,13 +28,10 @@ android {
 
 repositories {
     mavenCentral()
-    maven {
-        url 'https://mvnrepository.com/artifact/org.openpnp/opencv'
-    }
 }
 
 dependencies {
     compile 'com.facebook.react:react-native:+'
-    compile group: 'org.openpnp', name: 'opencv', version: '3.4.2-1'
+    compile 'org.opencv'
 }
   
