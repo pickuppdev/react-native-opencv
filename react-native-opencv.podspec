@@ -5,7 +5,7 @@ package = JSON.parse(File.read(File.join(__dir__, 'package.json')))
 Pod::Spec.new do |s|
   s.name         = package['name']
   s.version      = package['version']
-  s.license      = { :type => 'MIT' }
+  s.license      = package['license']
   s.homepage     = package['homepage']
   s.authors      = package['contributors'].flat_map { |author| { author['name'] => author['email'] } }
   s.summary      = package['description']

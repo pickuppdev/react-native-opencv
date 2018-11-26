@@ -11,7 +11,13 @@
     "react-native"
   ],
   "author": "",
-  "license": "",
+  "contributors": [
+    {
+      "name": "Allen Ng",
+      "email": "allen.ng@pickupp.io"
+    }
+  ],
+  "license": "MIT",
   "peerDependencies": {
     "react-native": "^0.41.2"
   }
