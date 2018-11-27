@@ -2,8 +2,7 @@ DIR=`pwd`
 JNI_DESTINATION=$DIR/android/src/main/jniLibs
 JAVA_DESTINATION=$DIR/android/libraries/opencv
 
-
-if [ ! -d "$JNI_DESTINATION" || ! -d "$JAVA_DESTINATION"  ]; then
+if [ ! -d "$JNI_DESTINATION" ] || [ ! -d "$JAVA_DESTINATION" ]; then
   # Only download if destination does not exist
   curl -O https://jaist.dl.sourceforge.net/project/opencvlibrary/3.4.4/opencv-3.4.4-android-sdk.zip
 
