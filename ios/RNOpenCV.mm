@@ -22,40 +22,77 @@ RCT_EXPORT_METHOD(
   if (laplacianScore) {
     resolve([NSNumber numberWithInt:laplacianScore]);
   } else {
-    reject(@"invaild_score", @"Cannot calculate score", error);
+    reject(@"invaild_score", @"Cannot calculate laplacian score", error);
   }
 }
 
-RCT_EXPORT_METHOD(tenengradBlurryCheck:(NSString *)imageAsBase64 callback:(RCTResponseSenderBlock)callback) {
+RCT_EXPORT_METHOD(
+  tenengradBlurryCheck:(NSString *)imageAsBase64 
+  resolver:(RCTPromiseResolveBlock)resolve
+  rejecter:(RCTPromiseRejectBlock)reject
+  ) {
+  NSError *error;
   UIImage* image = [self decodeBase64ToImage:imageAsBase64];
 
-  double tenengradScore = [self tenengradBlurryCheck:image];
+  int tenengradScore = [self tenengradBlurryCheck:image];
 
-  callback(@[[NSNull null], [NSNumber numberWithDouble:tenengradScore]]);
+  if (tenengradScore) {
+    resolve([NSNumber numberWithDouble:tenengradScore]);
+  } else {
+    reject(@"invaild_score", @"Cannot calculate tenegrad score", error);
+  }
 }
 
-RCT_EXPORT_METHOD(brennerBlurryCheck:(NSString *)imageAsBase64 callback:(RCTResponseSenderBlock)callback) {
+RCT_EXPORT_METHOD(
+  brennerBlurryCheck:(NSString *)imageAsBase64 
+  resolver:(RCTPromiseResolveBlock)resolve
+  rejecter:(RCTPromiseRejectBlock)reject
+  ) {
+  NSError *error;
   UIImage* image = [self decodeBase64ToImage:imageAsBase64];
 
-  double brennerScore = [self brennerBlurryCheck:image];
+  int brennerScore = [self brennerBlurryCheck:image];
 
-  callback(@[[NSNull null], [NSNumber numberWithDouble:brennerScore]]);
+  if (brennerScore) {
+    resolve([NSNumber numberWithFloat:brennerScore]);
+  } else {
+    reject(@"invaild_score", @"Cannot calculate brenner score", error);
+  }
 }
 
-RCT_EXPORT_METHOD(stdevBlurryCheck:(NSString *)imageAsBase64 callback:(RCTResponseSenderBlock)callback) {
+RCT_EXPORT_METHOD(
+  stdevBlurryCheck:(NSString *)imageAsBase64 
+  resolver:(RCTPromiseResolveBlock)resolve
+  rejecter:(RCTPromiseRejectBlock)reject
+  ) {
+  NSError *error;
   UIImage* image = [self decodeBase64ToImage:imageAsBase64];
 
-  float stdevScore = [self stdevBlurryCheck:image];
+  int stdevScore = [self stdevBlurryCheck:image];
 
-  callback(@[[NSNull null], [NSNumber numberWithFloat:stdevScore]]);
+  if (stdevScore) {
+    resolve([NSNumber numberWithDouble:stdevScore]);
+  } else {
+    reject(@"invaild_score", @"Cannot calculate stdev score", error);
+  }
 }
 
-RCT_EXPORT_METHOD(entropyBlurryCheck:(NSString *)imageAsBase64 callback:(RCTResponseSenderBlock)callback) {
+
+RCT_EXPORT_METHOD(
+  entropyBlurryCheck:(NSString *)imageAsBase64 
+  resolver:(RCTPromiseResolveBlock)resolve
+  rejecter:(RCTPromiseRejectBlock)reject
+  ) {
+  NSError *error;
   UIImage* image = [self decodeBase64ToImage:imageAsBase64];
 
-  double entropyScore = [self entropyBlurryCheck:image];
+  int entropyScore = [self entropyBlurryCheck:image];
 
-  callback(@[[NSNull null], [NSNumber numberWithDouble:entropyScore]]);
+  if (entropyScore) {
+    resolve([NSNumber numberWithDouble:entropyScore]);
+  } else {
+    reject(@"invaild_score", @"Cannot calculate entropy score", error);
+  }
 }
 
 // native code

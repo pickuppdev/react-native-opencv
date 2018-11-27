@@ -3,7 +3,7 @@ package io.pickupp.recatnativeopencv;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
-import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.Promise;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -30,30 +30,27 @@ public class RNOpenCVModule extends ReactContextBaseJavaModule {
         return "RNOpenCV";
     }
 
+    public Bitmap imageBase64ToMat(String imageAsBase64) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inDither = true;
+        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+
+        byte[] decodedString = Base64.decode(imageAsBase64, Base64.DEFAULT);
+        Bitmap image = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+        return image;
+    }
+
     @ReactMethod
-    public void laplacianBlurryCheck(String imageAsBase64, Callback errorCallback, Callback successCallback) {
+    public void laplacianBlurryCheck(String imageAsBase64, Promise promise) {
         try {
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inDither = true;
-            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-
-            byte[] decodedString = Base64.decode(imageAsBase64, Base64.DEFAULT);
-            Bitmap image = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-
-
-            // Bitmap image = decodeSampledBitmapFromFile(imageurl, 2000, 2000);
+            Mat matImage = this.imageBase64ToMat(imageAsBase64);
             int l = CvType.CV_8UC1; //8-bit grey scale image
-            Mat matImage = new Mat();
-            Utils.bitmapToMat(image, matImage);
             Mat matImageGrey = new Mat();
             Imgproc.cvtColor(matImage, matImageGrey, Imgproc.COLOR_BGR2GRAY);
 
-            Bitmap destImage;
-            destImage = Bitmap.createBitmap(image);
-            Mat dst2 = new Mat();
-            Utils.bitmapToMat(destImage, dst2);
             Mat laplacianImage = new Mat();
-            dst2.convertTo(laplacianImage, l);
+            matImage.convertTo(laplacianImage, l);
             Imgproc.Laplacian(matImageGrey, laplacianImage, CvType.CV_8U);
             Mat laplacianImage8bit = new Mat();
             laplacianImage.convertTo(laplacianImage8bit, l);
@@ -62,7 +59,7 @@ public class RNOpenCVModule extends ReactContextBaseJavaModule {
             Utils.matToBitmap(laplacianImage8bit, bmp);
             int[] pixels = new int[bmp.getHeight() * bmp.getWidth()];
             bmp.getPixels(pixels, 0, bmp.getWidth(), 0, 0, bmp.getWidth(), bmp.getHeight());
-            int maxLap = -16777216; // 16m
+            int maxLap = -16777216; // 16m, 256 * 256 * 256
             for (int pixel : pixels) {
                 if (pixel > maxLap)
                     maxLap = pixel;
@@ -74,9 +71,9 @@ public class RNOpenCVModule extends ReactContextBaseJavaModule {
                 System.out.println("is blur image");
             }
 
-            successCallback.invoke(soglia);
+            promise.resolve(maxLap);
         } catch (Exception e) {
-            errorCallback.invoke(e.getMessage());
+            promise.reject("unable to calculate laplacian score", e);
         }
     }
 }
