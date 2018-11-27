@@ -46,6 +46,7 @@ public class RNOpenCVModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void laplacianBlurryCheck(String imageAsBase64, Promise promise) {
         try {
+            // https://stackoverflow.com/questions/36862451/opencv-with-laplacian-formula-to-detect-image-is-blur-or-not-in-android
             Mat matImage = this.imageBase64ToMat(imageAsBase64);
             int l = CvType.CV_8UC1; //8-bit grey scale image
             Mat matImageGrey = new Mat();
@@ -63,19 +64,21 @@ public class RNOpenCVModule extends ReactContextBaseJavaModule {
             bmp.getPixels(pixels, 0, bmp.getWidth(), 0, 0, bmp.getWidth(), bmp.getHeight());
             int maxLap = -16777216; // 16m, 256 * 256 * 256
             for (int pixel : pixels) {
-                if (pixel > maxLap)
+                if (pixel > maxLap) {
                     maxLap = pixel;
+                }
             }
 
-            // int soglia = -6118750;
             int soglia = -8118750;
             if (maxLap <= soglia) {
                 System.out.println("is blur image");
             }
 
-            promise.resolve(maxLap);
+            promise.resolve(maxLap <= soglia);
         } catch (Exception e) {
             promise.reject("unable to calculate laplacian score", e);
         }
     }
+
+    // TODO: implement other methods
 }

@@ -213,12 +213,12 @@ RCT_EXPORT_METHOD(
 - (double) entropyBlurryCheck:(UIImage *) image {
   // converting UIImage to OpenCV format - Mat
   cv::Mat matImage = [self convertUIImageToCVMat:image];
-  //开辟内存
+  // allocate memory
   double temp[256] = { 0.0 };
 
-  // 计算每个像素的累积值
+  // calculate acc. value for each row
   for (int m = 0; m < matImage.rows; m++)
-  {// 有效访问行列的方式
+  {// look over cols
       const uchar* t = matImage.ptr<uchar>(m);
       for (int n = 0; n < matImage.cols; n++)
       {
@@ -227,14 +227,14 @@ RCT_EXPORT_METHOD(
       }
   }
 
-  // 计算每个像素的概率
+  // calculate over pixels
   for (int i = 0; i < 256; i++)
   {
       temp[i] = temp[i] / (matImage.rows*matImage.cols);
   }
 
   double result = 0;
-  // 计算图像信息熵
+  // calculate logs
   for (int i = 0; i < 256; i++)
   {
       if (temp[i] == 0.0)
