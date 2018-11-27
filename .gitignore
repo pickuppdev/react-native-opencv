@@ -43,4 +43,9 @@ local.properties
 buck-out/
 \.buckd/
 *.keystore
-libraries
+
+# gradle
+gradlew
+gradlew.bat
+import-summary.txt
+gradle/
