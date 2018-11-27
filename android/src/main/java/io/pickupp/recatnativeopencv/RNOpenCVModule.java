@@ -30,15 +30,17 @@ public class RNOpenCVModule extends ReactContextBaseJavaModule {
         return "RNOpenCV";
     }
 
-    public Bitmap imageBase64ToMat(String imageAsBase64) {
+    public Mat imageBase64ToMat(String imageAsBase64) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inDither = true;
         options.inPreferredConfig = Bitmap.Config.ARGB_8888;
 
         byte[] decodedString = Base64.decode(imageAsBase64, Base64.DEFAULT);
         Bitmap image = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        Mat matImage = new Mat();
+        Utils.bitmapToMat(image, matImage);
 
-        return image;
+        return matImage;
     }
 
     @ReactMethod
