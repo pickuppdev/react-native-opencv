@@ -16,11 +16,11 @@ import org.opencv.imgproc.Imgproc;
 
 import android.util.Base64;
 
-public class RNOpencvModule extends ReactContextBaseJavaModule {
+public class RNOpenCVModule extends ReactContextBaseJavaModule {
 
     private final ReactApplicationContext reactContext;
 
-    public RNOpencvModule(ReactApplicationContext reactContext) {
+    public RNOpenCVModule(ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
     }
