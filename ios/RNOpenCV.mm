@@ -17,13 +17,9 @@ RCT_EXPORT_METHOD(
   NSError *error;
   UIImage* image = [self decodeBase64ToImage:imageAsBase64];
 
-  int laplacianScore = [self laplacianBlurryCheck:image];
+  BOOL laplacianScore = [self laplacianBlurryCheck:image];
 
-  if (laplacianScore) {
-    resolve([NSNumber numberWithInt:laplacianScore]);
-  } else {
-    reject(@"invaild_score", @"Cannot calculate laplacian score", error);
-  }
+  resolve([NSNumber numberWithBool:laplacianScore]);
 }
 
 RCT_EXPORT_METHOD(
@@ -123,7 +119,7 @@ RCT_EXPORT_METHOD(
   return [UIImage imageWithData:data];
 }
 
-- (int) laplacianBlurryCheck:(UIImage *) image {
+- (BOOL) laplacianBlurryCheck:(UIImage *) image {
   // converting UIImage to OpenCV format - Mat
   cv::Mat matImage = [self convertUIImageToCVMat:image];
   cv::Mat matImageGrey;
@@ -152,7 +148,7 @@ RCT_EXPORT_METHOD(
   // smaller number = less sensitive; default = 180
   int threshold = 180;
 
-  return maxLap;
+  return maxLap <= threshold;
 }
 
 - (double) tenengradBlurryCheck:(UIImage *) image {
