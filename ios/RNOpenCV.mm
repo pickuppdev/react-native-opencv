@@ -146,7 +146,7 @@ RCT_EXPORT_METHOD(
   }
   // one of the main parameters here: threshold sets the sensitivity for the blur check
   // smaller number = less sensitive; default = 180
-  int threshold = 180;
+  int threshold = 130;
 
   return maxLap <= threshold;
 }
