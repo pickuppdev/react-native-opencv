@@ -30,7 +30,6 @@ repositories {
 
 dependencies {
     compile 'com.facebook.react:react-native:+'
-    // implementation 'com.github.floe:opencv-android:3.4.0'
     implementation project(':opencv-android-sdk')
 }
   

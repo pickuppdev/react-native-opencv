@@ -9,19 +9,21 @@
 }
 RCT_EXPORT_MODULE()
 
-// methods exports to react
-RCT_EXPORT_METHOD(checkForBlurryImage:(NSString *)imageAsBase64 callback:(RCTResponseSenderBlock)callback) {
-  // UIImage* image = [self decodeBase64ToImage:imageAsBase64];
-
-  // callback(@[[NSNull null], [NSNumber numberWithInt:laplacianScore]]);
-}
-
-RCT_EXPORT_METHOD(laplacianBlurryCheck:(NSString *)imageAsBase64 callback:(RCTResponseSenderBlock)callback) {
+RCT_EXPORT_METHOD(
+  laplacianBlurryCheck:(NSString *)imageAsBase64 
+  resolver:(RCTPromiseResolveBlock)resolve
+  rejecter:(RCTPromiseRejectBlock)reject
+  ) {
+  NSError *error;
   UIImage* image = [self decodeBase64ToImage:imageAsBase64];
 
   int laplacianScore = [self laplacianBlurryCheck:image];
 
-  callback(@[[NSNull null], [NSNumber numberWithInt:laplacianScore]]);
+  if (laplacianScore) {
+    resolve(laplacianScore)
+  } else {
+    reject(error)
+  }
 }
 
 RCT_EXPORT_METHOD(tenengradBlurryCheck:(NSString *)imageAsBase64 callback:(RCTResponseSenderBlock)callback) {
