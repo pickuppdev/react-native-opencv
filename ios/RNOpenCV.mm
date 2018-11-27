@@ -20,7 +20,7 @@ RCT_EXPORT_METHOD(
   int laplacianScore = [self laplacianBlurryCheck:image];
 
   if (laplacianScore) {
-    resolve([NSNumber numberWithInt:laplacianScore])
+    resolve([NSNumber numberWithInt:laplacianScore]);
   } else {
     reject(@"invaild_score", @"Cannot calculate score", error);
   }
