@@ -49,3 +49,5 @@ gradlew
 gradlew.bat
 import-summary.txt
 gradle/
+*.so
+*.zip
