@@ -2,7 +2,6 @@ DIR=`pwd`
 JNI_DESTINATION=$DIR/android/libraries/opencv/jniLibs
 JAVA_DESTINATION=$DIR/android/libraries/opencv/src/main
 
-
 downloadSdk() {
   # Only download if destination does not exist
   curl -O https://jaist.dl.sourceforge.net/project/opencvlibrary/3.4.4/opencv-3.4.4-android-sdk.zip
@@ -28,7 +27,7 @@ cleanupSdk() {
   rm -rf OpenCV-android-sdk/
 }
 
-if [[ -z "${OPENCV_ANDROID_SDK}" ]] && [[ -d "$OPENCV_ANDROID_SDK" ]]; then
+if [ -z "${OPENCV_ANDROID_SDK}" ] || [ ! -d "$OPENCV_ANDROID_SDK" ]; then
   downloadSdk
   copySdk $DIR/OpenCV-android-sdk
   cleanupSdk

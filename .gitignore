@@ -51,4 +51,8 @@ import-summary.txt
 gradle/
 *.so
 *.zip
-jniLibs
+
+# sdk
+android/libraries/opencv/src/main/java
+android/libraries/opencv/src/main/res
+android/libraries/opencv/src/main/AndroidManifest.xml
