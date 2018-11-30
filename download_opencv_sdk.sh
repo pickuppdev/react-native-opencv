@@ -1,6 +1,6 @@
 DIR=`pwd`
-JNI_DESTINATION=$DIR/android/src/main/jniLibs
-JAVA_DESTINATION=$DIR/android/libraries/opencv/src
+JNI_DESTINATION=$DIR/android/libraries/opencv/jniLibs
+JAVA_DESTINATION=$DIR/android/libraries/opencv/src/main
 
 if [ ! -d "$JNI_DESTINATION" ] || [ ! -d "$JAVA_DESTINATION" ]; then
   # Only download if destination does not exist
@@ -13,12 +13,13 @@ if [ ! -d "$JNI_DESTINATION" ] || [ ! -d "$JAVA_DESTINATION" ]; then
     mkdir $JNI_DESTINATION
     cp -r $DIR/OpenCV-android-sdk/sdk/native/libs/ $JNI_DESTINATION
   fi
-
-
-  if [ ! -d "$JAVA_DESTINATION" ]; then
+=
+  if [ ! -d "$JAVA_DESTINATION/java" ]; then
     # copy java
     mkdir $JAVA_DESTINATION
-    cp -r $DIR/OpenCV-android-sdk/sdk/java/src/ $JAVA_DESTINATION
+    cp -r $DIR/OpenCV-android-sdk/sdk/java/src/ $JAVA_DESTINATION/java
+    cp -r $DIR/OpenCV-android-sdk/sdk/java/res $JAVA_DESTINATION/res
+    cp -r $DIR/OpenCV-android-sdk/sdk/java/AndroidManifest.xml $JAVA_DESTINATION/AndroidManifest.xml
   fi
 
   rm -rf opencv-3.4.4-android-sdk.zip

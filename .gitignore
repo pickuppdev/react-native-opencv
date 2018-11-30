@@ -51,3 +51,4 @@ import-summary.txt
 gradle/
 *.so
 *.zip
+jniLibs
