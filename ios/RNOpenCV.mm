@@ -17,9 +17,9 @@ RCT_EXPORT_METHOD(
   NSError *error;
   UIImage* image = [self decodeBase64ToImage:imageAsBase64];
 
-  BOOL laplacianScore = [self laplacianBlurryCheck:image];
+  UInt8 laplacianScore = [self laplacianBlurryCheck:image];
 
-  resolve([NSNumber numberWithBool:laplacianScore]);
+  resolve([NSNumber numberWithUnsignedInteger:maxLap]);
 }
 
 RCT_EXPORT_METHOD(
@@ -119,7 +119,7 @@ RCT_EXPORT_METHOD(
   return [UIImage imageWithData:data];
 }
 
-- (BOOL) laplacianBlurryCheck:(UIImage *) image {
+- (UInt8) laplacianBlurryCheck:(UIImage *) image {
   // converting UIImage to OpenCV format - Mat
   cv::Mat matImage = [self convertUIImageToCVMat:image];
   cv::Mat matImageGrey;
@@ -138,7 +138,7 @@ RCT_EXPORT_METHOD(
   unsigned char *pixels = laplacianImage8bit.data;
 
   // 16777216 = 256*256*256
-  int maxLap = -16777216;
+  UInt8 maxLap = 0;
   for (int i = 0; i < ( laplacianImage8bit.elemSize()*laplacianImage8bit.total()); i++) {
     if (pixels[i] > maxLap) {
       maxLap = pixels[i];
@@ -146,9 +146,8 @@ RCT_EXPORT_METHOD(
   }
   // one of the main parameters here: threshold sets the sensitivity for the blur check
   // smaller number = less sensitive; default = 180
-  int threshold = 130;
 
-  return maxLap <= threshold;
+  return maxLap;
 }
 
 - (double) tenengradBlurryCheck:(UIImage *) image {
