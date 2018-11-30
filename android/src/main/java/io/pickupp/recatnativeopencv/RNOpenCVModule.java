@@ -58,23 +58,18 @@ public class RNOpenCVModule extends ReactContextBaseJavaModule {
             Mat laplacianImage8bit = new Mat();
             laplacianImage.convertTo(laplacianImage8bit, l);
 
-            Bitmap bmp = Bitmap.createBitmap(laplacianImage8bit.cols(), laplacianImage8bit.rows(), Bitmap.Config.ARGB_8888);
-            Utils.matToBitmap(laplacianImage8bit, bmp);
-            int[] pixels = new int[bmp.getHeight() * bmp.getWidth()];
-            bmp.getPixels(pixels, 0, bmp.getWidth(), 0, 0, bmp.getWidth(), bmp.getHeight());
-            int maxLap = -16777216; // 16m, 256 * 256 * 256
-            for (int pixel : pixels) {
-                if (pixel > maxLap) {
-                    maxLap = pixel;
+            int size = (int)(laplacianImage8bit.elemSize() * laplacianImage8bit.total());
+            byte[] pixels = new byte[size];
+            laplacianImage8bit.get(0, 0, pixels);
+            int maxLap = 0;
+            for (byte pixel : pixels) {
+                int value = pixel & 0xFF;
+                if (value > maxLap) {
+                  maxLap = value;
                 }
             }
 
-            int soglia = -8118750;
-            if (maxLap <= soglia) {
-                System.out.println("is blur image");
-            }
-
-            promise.resolve(maxLap <= soglia);
+            promise.resolve(maxLap);
         } catch (Exception e) {
             promise.reject("unable to calculate laplacian score", e);
         }
