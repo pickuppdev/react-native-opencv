@@ -19,7 +19,7 @@ RCT_EXPORT_METHOD(
 
   UInt8 laplacianScore = [self laplacianBlurryCheck:image];
 
-  resolve([NSNumber numberWithUnsignedInteger:maxLap]);
+  resolve([NSNumber numberWithUnsignedInteger:laplacianScore]);
 }
 
 RCT_EXPORT_METHOD(
