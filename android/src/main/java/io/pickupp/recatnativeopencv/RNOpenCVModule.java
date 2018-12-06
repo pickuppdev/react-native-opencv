@@ -5,12 +5,18 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.Promise;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
-
+import org.opencv.core.MatOfPoint;
+import org.opencv.core.MatOfPoint2f;
+import org.opencv.core.Size;
+import org.opencv.core.Point;
 import org.opencv.android.Utils;
 import org.opencv.imgproc.Imgproc;
 
@@ -72,6 +78,37 @@ public class RNOpenCVModule extends ReactContextBaseJavaModule {
             promise.resolve(maxLap);
         } catch (Exception e) {
             promise.reject("unable to calculate laplacian score", e);
+        }
+    }
+
+    @ReactMethod
+    public void findMaxEdge(String imageAsBase64, Promise promise) {
+        try {
+            Mat matImage = this.imageBase64ToMat(imageAsBase64);
+            Mat matImageGrey = new Mat();
+            Imgproc.cvtColor(matImage, matImageGrey, Imgproc.COLOR_BGR2GRAY);
+            Imgproc.GaussianBlur(matImageGrey, matImageGrey, new Size(9, 9), 2, 2);
+
+            Mat canny = new Mat();
+            Imgproc.Canny(matImageGrey, canny, 50, 100, 3);
+            List<MatOfPoint> contours = new ArrayList<>();
+            Mat hierarchy = new Mat();
+            // Imgproc.CV_RETR_TREE: 3
+            // CV_CHAIN_APPROX_NONE: 1
+            Imgproc.findContours(canny, contours, hierarchy, 3, 1);
+
+            double maxLength = 0;
+            for (MatOfPoint edge : contours) {
+                MatOfPoint2f newEdge = new MatOfPoint2f(edge.toArray());
+                double value = Imgproc.arcLength(newEdge, false);
+                if (value > maxLength) {
+                    maxLength = value;
+                }
+            }
+
+            promise.resolve(maxLength);
+        } catch (Exception e) {
+            promise.reject("unable to find max edge", e);
         }
     }
 
