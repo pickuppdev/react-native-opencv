@@ -1,13 +1,13 @@
 
-# react-native-opencv
+# @pickupp/react-native-opencv
 
 ## Getting started
 
-`$ npm install react-native-opencv --save`
+`$ npm install @pickupp/react-native-opencv --save`
 
 ### Mostly automatic installation
 
-`$ react-native link react-native-opencv`
+`$ react-native link @pickupp/react-native-opencv`
 
 ### Prerequisite
 
@@ -20,7 +20,7 @@ you can download the sdk first and create a enviornment variable `export OPENCV_
 #### iOS
 
 1. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
-2. Go to `node_modules` ➜ `react-native-opencv` and add `RNOpenCV.xcodeproj`
+2. Go to `node_modules` ➜ `@pickupp/react-native-opencv` and add `RNOpenCV.xcodeproj`
 3. In XCode, in the project navigator, select your project. Add `libRNOpenCV.a` to your project's `Build Phases` ➜ `Link Binary With Libraries`
 4. Run your project (`Cmd+R`)<
 
@@ -74,9 +74,9 @@ you can download the sdk first and create a enviornment variable `export OPENCV_
 2. Append the following lines to `android/settings.gradle`:
   	```
   	include ':react-native-opencv'
-  	project(':react-native-opencv').projectDir = new File(rootProject.projectDir, 	'../node_modules/react-native-opencv/android')
+  	project(':react-native-opencv').projectDir = new File(rootProject.projectDir, 	'../node_modules/@pickupp/react-native-opencv/android')
 		include ':opencv-android-sdk'
-		project(':opencv-android-sdk').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-opencv/android/libraries/opencv')
+		project(':opencv-android-sdk').projectDir = new File(rootProject.projectDir, '../node_modules/@pickupp/react-native-opencv/android/libraries/opencv')
   	```
 3. Insert the following lines inside the dependencies block in `android/app/build.gradle`:
   	```
@@ -87,18 +87,16 @@ you can download the sdk first and create a enviornment variable `export OPENCV_
 		```
 		sourceSets.main {
       // include opencv native jni
-      jniLibs.srcDir '../../node_modules/react-native-opencv/android/libraries/opencv/jniLibs'
+      jniLibs.srcDir '../../node_modules/@pickupp/react-native-opencv/android/libraries/opencv/jniLibs'
       jni.srcDirs = [] //disable automatic ndk-build call
     }
 		```
 
 ## Usage
 ```javascript
-import RNOpenCV from 'react-native-opencv';
+import RNOpenCV from '@pickupp/react-native-opencv';
 
 const maxEdgeLength = await RNOpenCV.findMaxEdge(/* base64ImageString */)
 const laplacianScore = await RNOpenCV.laplacianBlurryCheck(/* base64ImageString */)
-
-// TODO: What to do with the module?
 ```
   
