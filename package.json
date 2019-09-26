@@ -1,7 +1,7 @@
 
 {
   "name": "@pickupp/react-native-opencv",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "OpenCV binding for recat-native",
   "main": "index.js",
   "scripts": {
