@@ -12,6 +12,7 @@
     "type": "git",
     "url": "git+https://github.com/pickuppdev/react-native-opencv"
   },
+  "homepage": "https://github.com/pickuppdev/react-native-opencv",
   "keywords": [
     "react-native"
   ],
