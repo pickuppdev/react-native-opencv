@@ -30,4 +30,5 @@ repositories {
 
 dependencies {
     implementation 'com.facebook.react:react-native:+'
+    implementation 'org.opencv.android:opencv-android-sdk:3.4.+'
 }
