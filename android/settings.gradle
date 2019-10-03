@@ -1,2 +1,0 @@
-include ':opencv-android-sdk'
-project(':opencv-android-sdk').projectDir = new File(rootProject.projectDir, '/libraries/opencv')

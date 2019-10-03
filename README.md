@@ -19,12 +19,73 @@ you can download the sdk first and create a enviornment variable `export OPENCV_
 
 #### iOS
 
+# RN <0.60
+
 1. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
 2. Go to `node_modules` ➜ `@pickupp/react-native-opencv` and add `RNOpenCV.xcodeproj`
 3. In XCode, in the project navigator, select your project. Add `libRNOpenCV.a` to your project's `Build Phases` ➜ `Link Binary With Libraries`
-4. Run your project (`Cmd+R`)<
+4. Run your project (`Cmd+R`)
 
 #### Android
+
+# RN >= 0.60
+
+1. Open up `android/app/src/main/java/[...]/MainActivity.java`
+	- Add 
+			```
+			import org.opencv.android.BaseLoaderCallback;
+			import org.opencv.android.LoaderCallbackInterface;
+			import org.opencv.android.OpenCVLoader;
+			```
+		- Add 
+			```
+				private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
+					@Override
+					public void onManagerConnected(int status) {
+						switch (status) {
+							case LoaderCallbackInterface.SUCCESS:
+							{
+								Log.i("OpenCV", "OpenCV loaded successfully");
+							} break;
+							default:
+							{
+								super.onManagerConnected(status);
+							} break;
+						}
+					}
+				};
+
+				public void onCreate() {
+					super.onCreate();
+					if (!OpenCVLoader.initDebug()) {
+						Log.d("OpenCv", "Error while init");
+					}
+				}
+
+				public void onResume()
+				{
+					if (!OpenCVLoader.initDebug()) {
+						Log.d("OpenCV", "Internal OpenCV library not found. Using OpenCV Manager for initialization");
+						OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, this, mLoaderCallback);
+					} else {
+						Log.d("OpenCV", "OpenCV library found inside package. Using it!");
+						mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
+					}
+				}
+		```
+2. Insert the following lines inside the dependencies block in `android/build.gradle` under `allProjects -> dependencies`:
+  	```
+			maven {
+				url "https://dl.bintray.com/pickuppdev/pickupp"
+			}
+  	```
+
+3. Insert the following lines inside the dependencies block in `android/app/build.gradle` under `allProjects -> dependencies`:
+  	```
+	    implementation 'org.opencv.android:opencv-android-sdk:3.4.+'
+  	```
+
+# RN < 0.60
 
 1. Open up `android/app/src/main/java/[...]/MainActivity.java`
   - Add `import io.pickupp.recatnativeopencv.RNOpenCVPackage;` to the imports at the top of the file
@@ -83,7 +144,7 @@ you can download the sdk first and create a enviornment variable `export OPENCV_
       implementation project(':react-native-opencv')
 			implementation project(':opencv-android-sdk')
   	```
-4. Insert the following lines inside the android block `andriod.app/build.gradle`
+4. Insert the following lines inside the android block `andriod/app/build.gradle`
 		```
 		sourceSets.main {
       // include opencv native jni
